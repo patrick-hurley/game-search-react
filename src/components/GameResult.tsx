@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Heading, Image } from '@chakra-ui/react'
 import { Platform } from '../services/GameService'
 
 interface Props {
@@ -11,10 +11,10 @@ interface Props {
 const GameResult = ({ name, backgroundImage, platforms, rating }: Props) => {
     return (
         <Box>
+            <Image src={backgroundImage} mb="3" />
             <Heading as="h2" size="md" mb={5}>
                 {name}
             </Heading>
-            <img src={backgroundImage} /> {/*<p>{platforms}</p> */}
             {platforms?.map((platform, index) => (
                 <p key={index}>{platform.platform.name}</p>
             ))}

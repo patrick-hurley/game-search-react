@@ -1,7 +1,7 @@
 import { CanceledError } from '../services/ApiClient'
 import { useEffect, useState } from 'react'
 import GenreService, { GenreResponse } from '../services/GenreService'
-import { Link, UnorderedList, ListItem } from '@chakra-ui/react'
+import { Box, Flex, Image, Link, VStack } from '@chakra-ui/react'
 
 interface Props {
     onClick: (id: number) => void
@@ -24,16 +24,24 @@ const GenreList = ({ onClick }: Props) => {
 
     return (
         <>
-            <h2>GenreList</h2>
-            <UnorderedList>
-                {genres?.results.map((genre, index) => (
-                    <ListItem key={index}>
-                        <Link onClick={() => onClick(genre.id)}>
+            {genres?.results.map((genre, index) => (
+                <VStack align="left">
+                    <Flex mb="5">
+                        <Image
+                            h="32px"
+                            w="32px"
+                            mr="2"
+                            borderRadius="10px"
+                            objectFit="cover"
+                            src={genre.image_background}
+                        />
+
+                        <Link key={index} onClick={() => onClick(genre.id)}>
                             {genre.name}
                         </Link>
-                    </ListItem>
-                ))}
-            </UnorderedList>
+                    </Flex>
+                </VStack>
+            ))}
 
             {errorMessage && <p>{errorMessage}</p>}
         </>
