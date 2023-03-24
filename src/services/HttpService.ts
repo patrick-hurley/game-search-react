@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios'
 import ApiClient from './ApiClient'
 
 export interface RawGResponse<T> {
@@ -11,10 +10,11 @@ export interface RawGResponse<T> {
 class HttpService {
     constructor(private path: string) {}
 
-    getAll<T>() {
+    getAll<T>(params: {} = {}) {
         const controller = new AbortController()
         const response = ApiClient.get<T>(this.path, {
             signal: controller.signal,
+            params: { ...params, page: 1, page_size: 5 },
         })
         return { response, cancel: () => controller.abort() }
     }

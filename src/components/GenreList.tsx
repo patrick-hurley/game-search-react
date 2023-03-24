@@ -1,8 +1,13 @@
 import { CanceledError } from '../services/ApiClient'
 import { useEffect, useState } from 'react'
 import GenreService, { GenreResponse } from '../services/GenreService'
+import { Link, UnorderedList, ListItem } from '@chakra-ui/react'
 
-const GenreList = () => {
+interface Props {
+    onClick: (id: number) => void
+}
+
+const GenreList = ({ onClick }: Props) => {
     const [genres, setGenres] = useState<GenreResponse>()
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -20,9 +25,15 @@ const GenreList = () => {
     return (
         <>
             <h2>GenreList</h2>
-            {genres?.results.map((genre, index) => (
-                <p key={index}>{genre.name}</p>
-            ))}
+            <UnorderedList>
+                {genres?.results.map((genre, index) => (
+                    <ListItem key={index}>
+                        <Link onClick={() => onClick(genre.id)}>
+                            {genre.name}
+                        </Link>
+                    </ListItem>
+                ))}
+            </UnorderedList>
 
             {errorMessage && <p>{errorMessage}</p>}
         </>

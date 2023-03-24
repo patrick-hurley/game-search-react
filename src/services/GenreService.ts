@@ -1,6 +1,7 @@
 import HttpService, { RawGResponse } from './HttpService'
 
 export interface Genre {
+    id: number
     name: string
 }
 
