@@ -1,7 +1,9 @@
+import { Box, SimpleGrid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { CanceledError } from '../services/ApiClient'
 
 import GameService, { GameResponse } from '../services/GameService'
+import GameResult from './GameResult'
 
 interface Props {
     selectedGenre: number
@@ -26,11 +28,18 @@ const GameList = ({ selectedGenre }: Props) => {
 
     return (
         <>
-            <div>GameList</div>
-            {games?.results.map((game) => (
-                <p key={game.id}>{game.name}</p>
-            ))}
-            {errorMessage && <p>{errorMessage}</p>}
+            <SimpleGrid columns={3} spacing={10}>
+                {games?.results.map((game) => (
+                    <GameResult
+                        key={game.id}
+                        name={game.name}
+                        rating={parseInt(game.rating)}
+                        platforms={game.platforms}
+                        backgroundImage={game.background_image}
+                    ></GameResult>
+                ))}
+                {errorMessage && <p>{errorMessage}</p>}
+            </SimpleGrid>
         </>
     )
 }

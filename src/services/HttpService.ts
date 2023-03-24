@@ -14,7 +14,7 @@ class HttpService {
         const controller = new AbortController()
         const response = ApiClient.get<T>(this.path, {
             signal: controller.signal,
-            params: { ...params, page: 1, page_size: 5 },
+            params: { ...params, page: 1, page_size: 10 },
         })
         return { response, cancel: () => controller.abort() }
     }

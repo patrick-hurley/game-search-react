@@ -7,12 +7,12 @@ function App() {
     const [selectedGenre, setSelectedGenre] = useState(1)
 
     return (
-        <div>
+        <Box p={50}>
             <GenreList onClick={(id: number) => setSelectedGenre(id)} />
             <Box mt={5}>
                 <GameList selectedGenre={selectedGenre} />
             </Box>
-        </div>
+        </Box>
     )
 }
 
