@@ -25,7 +25,7 @@ const GenreList = ({ onClick }: Props) => {
     return (
         <>
             {genres?.results.map((genre, index) => (
-                <VStack align="left">
+                <VStack align="left" key={index}>
                     <Flex mb="5">
                         <Image
                             h="32px"
