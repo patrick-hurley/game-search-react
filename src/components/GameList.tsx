@@ -10,7 +10,7 @@ interface Props {
 const GameList = ({ games }: Props) => {
     return (
         <>
-            <SimpleGrid columns={3} spacing={10}>
+            <SimpleGrid columns={3} spacing={5}>
                 {games.results.map((game) => (
                     <GameResult
                         key={game.id}

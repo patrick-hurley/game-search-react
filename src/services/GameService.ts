@@ -1,18 +1,16 @@
 import HttpService, { RawGResponse } from './HttpService'
+import { Platform } from '../services/PlatformService'
 
 export interface Game {
     id: number
     name: string
     rating: string
-    platforms: Platform[]
+    platforms: iPlatform[]
     background_image: string
 }
 
-export interface Platform {
-    platform: {
-        id: number
-        name: string
-    }
+export interface iPlatform {
+    platform: Platform
     released_at: string
 }
 

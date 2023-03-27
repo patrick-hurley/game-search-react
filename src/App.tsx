@@ -1,4 +1,12 @@
-import { Box, Flex, HStack, Spinner, Text } from '@chakra-ui/react'
+import {
+    Box,
+    Button,
+    Flex,
+    HStack,
+    Spinner,
+    Text,
+    useColorMode,
+} from '@chakra-ui/react'
 import { CanceledError } from './services/ApiClient'
 import { useEffect, useState } from 'react'
 import GameList from './components/GameList'
@@ -9,6 +17,7 @@ import SearchBar from './components/SearchBar'
 import OrderBy from './components/OrderBy'
 import PlatformFilter from './components/PlatformFilter'
 import PlatformService, { PlatformResponse } from './services/PlatformService'
+import LightDarkToggle from './components/LightDarkToggle'
 
 function App() {
     const [games, setGames] = useState<GameResponse>()
@@ -24,7 +33,7 @@ function App() {
 
     const [selectedGenre, setSelectedGenre] = useState<Genre>()
     const [selectedOrder, setSelectedOrder] = useState('')
-    const [selectedPlatform, setSelectedPlatform] = useState<string>('')
+    const [selectedPlatform, setSelectedPlatform] = useState<string>('all')
 
     const handleSearch = (searchText: string) => {
         setIsSearching(true)
@@ -33,9 +42,15 @@ function App() {
     }
 
     const handleGenreSelection = (genre: Genre) => {
-        setSelectedGenre(genre)
-        setIsSearching(false)
-        setSearchText('')
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
+        setTimeout(() => {
+            setSelectedGenre(genre)
+            setIsSearching(false)
+            setSearchText('')
+        }, 300)
     }
 
     const handlePlatformSelection = (platform: string | undefined) => {
@@ -100,7 +115,13 @@ function App() {
 
     return (
         <Box p="10">
-            <SearchBar onSearch={handleSearch} />
+            <Flex justifyContent="space-between">
+                <Box flex="1">
+                    <SearchBar onSearch={handleSearch} />
+                </Box>
+                <LightDarkToggle />
+            </Flex>
+
             <Text fontSize="3xl" mt="20px">
                 {isSearching
                     ? `Search results for '${searchText}'`

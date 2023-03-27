@@ -1,5 +1,5 @@
 import { KeyboardEvent } from 'react'
-import { SearchIcon } from '@chakra-ui/icons'
+import { AiOutlineSearch } from 'react-icons/ai'
 import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import { useForm, FieldValues } from 'react-hook-form'
 
@@ -28,7 +28,7 @@ const SearchBar = ({ onSearch }: Props) => {
                     <InputGroup>
                         <InputLeftElement
                             pointerEvents="none"
-                            children={<SearchIcon color="gray.300" />}
+                            children={<AiOutlineSearch color="gray.300" />}
                         />
                         <Input
                             {...register('search', {
