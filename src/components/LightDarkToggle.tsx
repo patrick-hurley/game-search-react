@@ -10,9 +10,9 @@ const LightDarkToggle = () => {
     const { toggleColorMode } = useColorMode()
 
     return (
-        <FormControl w="127px" ml="30px" display="flex" alignItems="center">
+        <FormControl w="147px" ml="30px" display="flex" alignItems="center">
+            <Switch onChange={toggleColorMode} mr="20px" />
             <FormLabel mb="0">Dark Mode</FormLabel>
-            <Switch onChange={toggleColorMode} />
         </FormControl>
     )
 }

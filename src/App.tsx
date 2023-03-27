@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text } from '@chakra-ui/react'
+import { Box, Flex, HStack, Image, Text } from '@chakra-ui/react'
 import { CanceledError } from './services/ApiClient'
 import { useEffect, useState } from 'react'
 import GameList from './components/GameList'
@@ -10,6 +10,7 @@ import OrderBy from './components/OrderBy'
 import PlatformFilter from './components/PlatformFilter'
 import PlatformService, { PlatformResponse } from './services/PlatformService'
 import LightDarkToggle from './components/LightDarkToggle'
+import logo from './assets/logo.png'
 
 function App() {
     const [games, setGames] = useState<GameResponse>()
@@ -107,7 +108,8 @@ function App() {
 
     return (
         <Box p="10">
-            <Flex justifyContent="space-between">
+            <Flex justify="space-between" align="center">
+                <Image src={logo} w="60px" mr="25px" />
                 <Box flex="1">
                     <SearchBar onSearch={handleSearch} />
                 </Box>
