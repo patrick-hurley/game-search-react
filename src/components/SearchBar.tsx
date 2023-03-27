@@ -18,31 +18,31 @@ const SearchBar = ({ onSearch }: Props) => {
 
     const onSubmit = (data: FieldValues) => {
         onSearch(data.search)
-        console.log('searching for ' + data.search)
         reset()
     }
 
     return (
-        <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <InputGroup>
-                    <InputLeftElement
-                        pointerEvents="none"
-                        children={<SearchIcon color="gray.300" />}
-                    />
-                    <Input
-                        {...register('search', {
-                            required: true,
-                            minLength: 3,
-                        })}
-                        type="text"
-                        placeholder="search"
-                        borderRadius="20px"
-                        onKeyPress={handleUserKeyPress}
-                    />
-                </InputGroup>
-            </form>
-        </Box>
+        <>
+            <Box>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            children={<SearchIcon color="gray.300" />}
+                        />
+                        <Input
+                            {...register('search', {
+                                required: true,
+                            })}
+                            type="text"
+                            placeholder="search"
+                            borderRadius="20px"
+                            onKeyPress={handleUserKeyPress}
+                        />
+                    </InputGroup>
+                </form>
+            </Box>
+        </>
     )
 }
 

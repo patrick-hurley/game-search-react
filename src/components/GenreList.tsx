@@ -1,27 +1,12 @@
-import { CanceledError } from '../services/ApiClient'
-import { useEffect, useState } from 'react'
-import GenreService, { GenreResponse } from '../services/GenreService'
-import { Box, Flex, Image, Link, VStack } from '@chakra-ui/react'
+import { Flex, Image, Link, VStack } from '@chakra-ui/react'
+import { Genre, GenreResponse } from '../services/GenreService'
 
 interface Props {
-    onClick: (id: number) => void
+    genres: GenreResponse
+    onClick: (genre: Genre) => void
 }
 
-const GenreList = ({ onClick }: Props) => {
-    const [genres, setGenres] = useState<GenreResponse>()
-    const [errorMessage, setErrorMessage] = useState('')
-
-    useEffect(() => {
-        const { response, cancel } = GenreService.getAll<GenreResponse>()
-        response
-            .then((res) => setGenres(res.data))
-            .catch((err) => {
-                if (err instanceof CanceledError) return
-                setErrorMessage('Could not get genres')
-            })
-        return () => cancel()
-    }, [])
-
+const GenreList = ({ genres, onClick }: Props) => {
     return (
         <>
             {genres?.results.map((genre, index) => (
@@ -36,14 +21,12 @@ const GenreList = ({ onClick }: Props) => {
                             src={genre.image_background}
                         />
 
-                        <Link key={index} onClick={() => onClick(genre.id)}>
+                        <Link key={index} onClick={() => onClick(genre)}>
                             {genre.name}
                         </Link>
                     </Flex>
                 </VStack>
             ))}
-
-            {errorMessage && <p>{errorMessage}</p>}
         </>
     )
 }
