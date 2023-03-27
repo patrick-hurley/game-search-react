@@ -2,7 +2,7 @@ import { Select } from '@chakra-ui/react'
 import { useRef } from 'react'
 
 interface Props {
-    onOrderSelect: (val: string | undefined) => void
+    onOrderSelect: (order: string | undefined) => void
 }
 
 const OrderBy = ({ onOrderSelect }: Props) => {
@@ -11,7 +11,6 @@ const OrderBy = ({ onOrderSelect }: Props) => {
     return (
         <Select
             ref={orderRef}
-            mb="20px"
             w="250px"
             onChange={() => onOrderSelect(orderRef.current?.value)}
         >

@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
+import { Box, Flex, HStack, Spinner, Text } from '@chakra-ui/react'
 import { CanceledError } from './services/ApiClient'
 import { useEffect, useState } from 'react'
 import GameList from './components/GameList'
@@ -7,10 +7,13 @@ import GenreList from './components/GenreList'
 import GenreService, { Genre, GenreResponse } from './services/GenreService'
 import SearchBar from './components/SearchBar'
 import OrderBy from './components/OrderBy'
+import PlatformFilter from './components/PlatformFilter'
+import PlatformService, { PlatformResponse } from './services/PlatformService'
 
 function App() {
     const [games, setGames] = useState<GameResponse>()
     const [genres, setGenres] = useState<GenreResponse>()
+    const [platforms, setPlatforms] = useState<PlatformResponse>()
 
     const [errorMessageGames, setErrorMessageGames] = useState('')
     const [errorMessageGenres, setErrorMessageGenres] = useState('')
@@ -21,6 +24,7 @@ function App() {
 
     const [selectedGenre, setSelectedGenre] = useState<Genre>()
     const [selectedOrder, setSelectedOrder] = useState('')
+    const [selectedPlatform, setSelectedPlatform] = useState<string>('')
 
     const handleSearch = (searchText: string) => {
         setIsSearching(true)
@@ -34,6 +38,11 @@ function App() {
         setSearchText('')
     }
 
+    const handlePlatformSelection = (platform: string | undefined) => {
+        console.log(platform)
+        platform && setSelectedPlatform(platform)
+    }
+
     const handleOrderSelection = (order: string | undefined) => {
         order && setSelectedOrder(order)
     }
@@ -45,6 +54,7 @@ function App() {
             ...(isSearching && { search: searchText }),
             ...(!isSearching && { genres: selectedGenre?.id }),
             ...(selectedOrder && { ordering: selectedOrder }),
+            ...(selectedPlatform !== 'all' && { platforms: selectedPlatform }),
         })
         response
             .then((res) => {
@@ -59,7 +69,7 @@ function App() {
             })
 
         return () => cancel()
-    }, [selectedGenre, searchText, selectedOrder])
+    }, [selectedGenre, searchText, selectedOrder, selectedPlatform])
 
     useEffect(() => {
         const { response, cancel } = GenreService.getAll<GenreResponse>()
@@ -71,6 +81,19 @@ function App() {
             .catch((err) => {
                 if (err instanceof CanceledError) return
                 setErrorMessageGenres('Could not get genres')
+            })
+        return () => cancel()
+    }, [])
+
+    useEffect(() => {
+        const { response, cancel } = PlatformService.getAll<PlatformResponse>()
+        response
+            .then((res) => {
+                setPlatforms(res.data)
+            })
+            .catch((err) => {
+                if (err instanceof CanceledError) return
+                console.log('Could not get platforms')
             })
         return () => cancel()
     }, [])
@@ -96,7 +119,16 @@ function App() {
                 </Box>
 
                 <Box flex="1">
-                    <OrderBy onOrderSelect={handleOrderSelection} />
+                    <HStack mb="20px">
+                        <OrderBy onOrderSelect={handleOrderSelection} />
+                        {platforms && (
+                            <PlatformFilter
+                                platforms={platforms}
+                                onPlatformSelect={handlePlatformSelection}
+                            />
+                        )}
+                    </HStack>
+
                     {isLoading && <Spinner />}
                     {!isLoading && games && !errorMessageGames && (
                         <GameList games={games} />
