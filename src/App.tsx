@@ -1,4 +1,11 @@
-import { Box, Flex, HStack, Image, Text } from '@chakra-ui/react'
+import {
+    Box,
+    Flex,
+    HStack,
+    Image,
+    Text,
+    useColorModeValue,
+} from '@chakra-ui/react'
 import { CanceledError } from './services/ApiClient'
 import { useEffect, useState } from 'react'
 import GameList from './components/GameList'
@@ -106,8 +113,10 @@ function App() {
         return () => cancel()
     }, [])
 
+    const bg = useColorModeValue('white', '#151515')
+
     return (
-        <Box p="10">
+        <Box p="10" bg={bg}>
             <Flex justify="space-between" align="center">
                 <Image src={logo} w="60px" mr="25px" />
                 <Box flex="1">

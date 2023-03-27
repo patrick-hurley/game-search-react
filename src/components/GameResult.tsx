@@ -2,7 +2,6 @@ import {
     Box,
     Heading,
     Flex,
-    Image,
     useColorModeValue,
     Skeleton,
 } from '@chakra-ui/react'
@@ -25,7 +24,7 @@ const GameResult = ({
     rating,
     isLoading,
 }: Props) => {
-    const bg = useColorModeValue('#ececec', 'black')
+    const bg = useColorModeValue('#ececec', '#202020')
 
     return (
         <Skeleton isLoaded={!isLoading}>
