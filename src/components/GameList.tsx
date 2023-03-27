@@ -1,10 +1,10 @@
-import { SimpleGrid } from '@chakra-ui/react'
+import { Select, SimpleGrid } from '@chakra-ui/react'
+import { useRef } from 'react'
 import { GameResponse } from '../services/GameService'
 import GameResult from './GameResult'
 
 interface Props {
     games: GameResponse
-    selectedGenre: number
 }
 
 const GameList = ({ games }: Props) => {

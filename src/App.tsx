@@ -6,18 +6,21 @@ import GameService, { GameResponse } from './services/GameService'
 import GenreList from './components/GenreList'
 import GenreService, { Genre, GenreResponse } from './services/GenreService'
 import SearchBar from './components/SearchBar'
+import OrderBy from './components/OrderBy'
 
 function App() {
     const [games, setGames] = useState<GameResponse>()
     const [genres, setGenres] = useState<GenreResponse>()
 
-    const [errorMessage, setErrorMessage] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
+    const [errorMessageGames, setErrorMessageGames] = useState('')
+    const [errorMessageGenres, setErrorMessageGenres] = useState('')
 
+    const [isLoading, setIsLoading] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
     const [searchText, setSearchText] = useState('')
 
     const [selectedGenre, setSelectedGenre] = useState<Genre>()
+    const [selectedOrder, setSelectedOrder] = useState('')
 
     const handleSearch = (searchText: string) => {
         setIsSearching(true)
@@ -31,34 +34,43 @@ function App() {
         setSearchText('')
     }
 
+    const handleOrderSelection = (order: string | undefined) => {
+        order && setSelectedOrder(order)
+    }
+
     useEffect(() => {
         setIsLoading(true)
 
         const { response, cancel } = GameService.getAll<GameResponse>({
             ...(isSearching && { search: searchText }),
             ...(!isSearching && { genres: selectedGenre?.id }),
+            ...(selectedOrder && { ordering: selectedOrder }),
         })
         response
             .then((res) => {
                 setGames(res.data)
                 setIsLoading(false)
+                setErrorMessageGames('')
             })
             .catch((err) => {
                 if (err instanceof CanceledError) return
-                setErrorMessage('Could not get games')
+                setErrorMessageGames('Could not get games')
                 setIsLoading(false)
             })
 
         return () => cancel()
-    }, [selectedGenre, searchText])
+    }, [selectedGenre, searchText, selectedOrder])
 
     useEffect(() => {
         const { response, cancel } = GenreService.getAll<GenreResponse>()
         response
-            .then((res) => setGenres(res.data))
+            .then((res) => {
+                setGenres(res.data)
+                setErrorMessageGenres('')
+            })
             .catch((err) => {
                 if (err instanceof CanceledError) return
-                setErrorMessage('Could not get genres')
+                setErrorMessageGenres('Could not get genres')
             })
         return () => cancel()
     }, [])
@@ -69,7 +81,7 @@ function App() {
             <Text fontSize="3xl" mt="20px">
                 {isSearching
                     ? `Search results for '${searchText}'`
-                    : `Genre: ${selectedGenre?.name}`}
+                    : selectedGenre && `Genre: ${selectedGenre.name}`}
             </Text>
 
             <Flex mt="10">
@@ -80,11 +92,19 @@ function App() {
                             onClick={handleGenreSelection}
                         />
                     )}
+                    {errorMessageGenres && <Text>{errorMessageGenres}</Text>}
                 </Box>
+
                 <Box flex="1">
+                    <OrderBy onOrderSelect={handleOrderSelection} />
                     {isLoading && <Spinner />}
-                    {games && !isLoading && <GameList games={games} />}
-                    {errorMessage && <p>{errorMessage}</p>}
+                    {!isLoading && games && !errorMessageGames && (
+                        <GameList games={games} />
+                    )}
+                    {!isLoading && games?.count === 0 && !errorMessageGames && (
+                        <Text>No results found.</Text>
+                    )}
+                    {errorMessageGames && <Text>{errorMessageGames}</Text>}
                 </Box>
             </Flex>
         </Box>
