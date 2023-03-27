@@ -5,9 +5,10 @@ import GameResult from './GameResult'
 
 interface Props {
     games: GameResponse
+    isLoading: boolean
 }
 
-const GameList = ({ games }: Props) => {
+const GameList = ({ games, isLoading }: Props) => {
     return (
         <>
             <SimpleGrid columns={3} spacing={5}>
@@ -18,6 +19,7 @@ const GameList = ({ games }: Props) => {
                         rating={parseInt(game.rating)}
                         platforms={game.platforms}
                         backgroundImage={game.background_image}
+                        isLoading={isLoading}
                     ></GameResult>
                 ))}
             </SimpleGrid>

@@ -1,12 +1,4 @@
-import {
-    Box,
-    Button,
-    Flex,
-    HStack,
-    Spinner,
-    Text,
-    useColorMode,
-} from '@chakra-ui/react'
+import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { CanceledError } from './services/ApiClient'
 import { useEffect, useState } from 'react'
 import GameList from './components/GameList'
@@ -46,15 +38,13 @@ function App() {
             top: 0,
             behavior: 'smooth',
         })
-        setTimeout(() => {
-            setSelectedGenre(genre)
-            setIsSearching(false)
-            setSearchText('')
-        }, 300)
+
+        setSelectedGenre(genre)
+        setIsSearching(false)
+        setSearchText('')
     }
 
     const handlePlatformSelection = (platform: string | undefined) => {
-        console.log(platform)
         platform && setSelectedPlatform(platform)
     }
 
@@ -74,8 +64,10 @@ function App() {
         response
             .then((res) => {
                 setGames(res.data)
-                setIsLoading(false)
                 setErrorMessageGames('')
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 400)
             })
             .catch((err) => {
                 if (err instanceof CanceledError) return
@@ -150,9 +142,8 @@ function App() {
                         )}
                     </HStack>
 
-                    {isLoading && <Spinner />}
-                    {!isLoading && games && !errorMessageGames && (
-                        <GameList games={games} />
+                    {games && !errorMessageGames && (
+                        <GameList games={games} isLoading={isLoading} />
                     )}
                     {!isLoading && games?.count === 0 && !errorMessageGames && (
                         <Text>No results found.</Text>
