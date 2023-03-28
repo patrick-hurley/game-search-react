@@ -22,7 +22,8 @@ import {
     AiOutlineMobile,
 } from 'react-icons/ai'
 import { TbXboxX } from 'react-icons/tb'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
+import { IconContext } from 'react-icons'
 
 interface Props {
     platforms: { platform: Platform }[]
@@ -69,9 +70,15 @@ const renderSwitch = (platform: Platform) => {
 const PlatformIcons = ({ platforms }: Props) => {
     return (
         <>
-            {platforms.map(({ platform }) => (
-                <Box key={platform.id}>{renderSwitch(platform)}</Box>
-            ))}
+            <IconContext.Provider value={{ size: '18px' }}>
+                <Flex wrap="wrap">
+                    {platforms.map(({ platform }) => (
+                        <Box key={platform.id} mr="10px">
+                            {renderSwitch(platform)}
+                        </Box>
+                    ))}
+                </Flex>
+            </IconContext.Provider>
         </>
     )
 }
