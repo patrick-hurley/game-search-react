@@ -30,7 +30,7 @@ const GameResult = ({
         <Skeleton isLoaded={!isLoading}>
             <Box borderRadius="15px" overflow="hidden" bg={bg}>
                 <Box
-                    h="150px"
+                    h={{ base: '250px', md: '150px' }}
                     backgroundSize="cover"
                     backgroundPosition="center"
                     backgroundImage={backgroundImage}

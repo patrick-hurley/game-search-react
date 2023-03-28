@@ -1,8 +1,10 @@
 import {
     Box,
     Flex,
-    HStack,
+    Heading,
+    Stack,
     Image,
+    Show,
     Text,
     useColorModeValue,
 } from '@chakra-ui/react'
@@ -115,8 +117,14 @@ function App() {
 
     const bg = useColorModeValue('white', '#151515')
 
+    const headingText = isSearching
+        ? `Search results for '${searchText}'`
+        : selectedGenre
+        ? `Genre: ${selectedGenre.name}`
+        : 'Games'
+
     return (
-        <Box p="10" bg={bg}>
+        <Box p={{ base: 5, md: 7 }} bg={bg}>
             <Flex justify="space-between" align="center">
                 <Image src={logo} w="60px" mr="25px" />
                 <Box flex="1">
@@ -125,25 +133,29 @@ function App() {
                 <LightDarkToggle />
             </Flex>
 
-            <Text fontSize="3xl" mt="20px">
-                {isSearching
-                    ? `Search results for '${searchText}'`
-                    : selectedGenre && `Genre: ${selectedGenre.name}`}
-            </Text>
-
             <Flex mt="10">
-                <Box w="200px">
-                    {genres && (
-                        <GenreList
-                            genres={genres}
-                            onClick={handleGenreSelection}
-                        />
-                    )}
-                    {errorMessageGenres && <Text>{errorMessageGenres}</Text>}
-                </Box>
+                <Show above="md">
+                    <Box w="200px">
+                        <Heading as="h2" size="md" mb="35px" mt="10px">
+                            Genres
+                        </Heading>
+                        {genres && (
+                            <GenreList
+                                genres={genres}
+                                onClick={handleGenreSelection}
+                            />
+                        )}
+                        {errorMessageGenres && (
+                            <Text>{errorMessageGenres}</Text>
+                        )}
+                    </Box>
+                </Show>
 
                 <Box flex="1">
-                    <HStack mb="20px">
+                    <Heading as="h2" size="xl" mb="20px">
+                        {headingText}
+                    </Heading>
+                    <Stack direction={{ base: 'column', md: 'row' }} mb="20px">
                         <OrderBy onOrderSelect={handleOrderSelection} />
                         {platforms && (
                             <PlatformFilter
@@ -151,7 +163,7 @@ function App() {
                                 onPlatformSelect={handlePlatformSelection}
                             />
                         )}
-                    </HStack>
+                    </Stack>
 
                     {games && !errorMessageGames && (
                         <GameList games={games} isLoading={isLoading} />

@@ -12,7 +12,7 @@ const PlatformFilter = ({ platforms, onPlatformSelect }: Props) => {
     return (
         <Select
             ref={platformRef}
-            w="200px"
+            w={{ base: '100%', md: '250px' }}
             onChange={() => onPlatformSelect(platformRef.current?.value)}
         >
             <option key="all" value="all">

@@ -1,18 +1,29 @@
 import {
-    Button,
     FormControl,
     FormLabel,
+    Show,
     Switch,
     useColorMode,
 } from '@chakra-ui/react'
 
 const LightDarkToggle = () => {
-    const { toggleColorMode } = useColorMode()
+    const { toggleColorMode, colorMode } = useColorMode()
 
     return (
-        <FormControl w="147px" ml="30px" display="flex" alignItems="center">
-            <Switch onChange={toggleColorMode} mr="20px" />
-            <FormLabel mb="0">Dark Mode</FormLabel>
+        <FormControl
+            w={{ base: '30px', md: '147px' }}
+            ml="30px"
+            display="flex"
+            alignItems="center"
+        >
+            <Switch
+                onChange={toggleColorMode}
+                mr="20px"
+                isChecked={colorMode === 'dark'}
+            />
+            <Show above="md">
+                <FormLabel mb="0">Dark Mode</FormLabel>
+            </Show>
         </FormControl>
     )
 }

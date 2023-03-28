@@ -11,7 +11,7 @@ const OrderBy = ({ onOrderSelect }: Props) => {
     return (
         <Select
             ref={orderRef}
-            w="250px"
+            w={{ base: '100%', md: '250px' }}
             onChange={() => onOrderSelect(orderRef.current?.value)}
         >
             <option value="-added">Order by: Date added</option>

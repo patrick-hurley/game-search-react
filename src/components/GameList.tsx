@@ -11,7 +11,7 @@ interface Props {
 const GameList = ({ games, isLoading }: Props) => {
     return (
         <>
-            <SimpleGrid columns={3} spacing={5}>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
                 {games.results.map((game) => (
                     <GameResult
                         key={game.id}
