@@ -1,45 +1,31 @@
-import { Select } from '@chakra-ui/react'
-import { useEffect, useRef, useState } from 'react'
-import { CanceledError } from '../services/ApiClient'
-import PlatformService, { PlatformResponse } from '../services/PlatformService'
+import { Text, Select } from '@chakra-ui/react'
+import { useRef } from 'react'
+import usePlatforms from '../hooks/usePlatforms'
 
 interface Props {
-    onPlatformSelect: (platform: string | undefined) => void
+    onPlatformSelect: (platform: string | null) => void
 }
 
 const PlatformFilter = ({ onPlatformSelect }: Props) => {
-    const [platforms, setPlatforms] = useState<PlatformResponse>()
-
-    useEffect(() => {
-        const { response, cancel } = PlatformService.getAll<PlatformResponse>()
-        response
-            .then((res) => {
-                setPlatforms(res.data)
-            })
-            .catch((err) => {
-                if (err instanceof CanceledError) return
-                console.log('Could not get platforms')
-            })
-        return () => cancel()
-    }, [])
-
+    const { platforms, error } = usePlatforms()
     const platformRef = useRef<HTMLSelectElement>(null)
-    return (
+    return !error ? (
         <Select
             ref={platformRef}
             w={{ base: '100%', md: '250px' }}
-            onChange={() => onPlatformSelect(platformRef.current?.value)}
+            onChange={() => onPlatformSelect(platformRef.current?.value!)}
         >
             <option key="all" value="all">
                 -- All Platforms --
             </option>
-            {platforms &&
-                platforms.results.map((platform) => (
-                    <option key={platform.id} value={platform.id}>
-                        {platform.name}
-                    </option>
-                ))}
+            {platforms?.results.map((platform) => (
+                <option key={platform.id} value={platform.id}>
+                    {platform.name}
+                </option>
+            ))}
         </Select>
+    ) : (
+        <Text>Could not get platforms</Text>
     )
 }
 

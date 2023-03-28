@@ -1,7 +1,7 @@
 import { Flex, Heading, Image, Link, Text } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { CanceledError } from '../services/ApiClient'
-import GenreService, { Genre, GenreResponse } from '../services/GenreService'
+import useGenres from '../hooks/useGenres'
+
+import { Genre } from '../services/GenreService'
 import imageUrl from '../utils/imageUrl'
 
 interface Props {
@@ -9,22 +9,7 @@ interface Props {
 }
 
 const GenreList = ({ onClick }: Props) => {
-    const [genres, setGenres] = useState<GenreResponse>()
-    const [errorMessage, setErrorMessage] = useState('')
-
-    useEffect(() => {
-        const { response, cancel } = GenreService.getAll<GenreResponse>()
-        response
-            .then((res) => {
-                setGenres(res.data)
-                setErrorMessage('')
-            })
-            .catch((err) => {
-                if (err instanceof CanceledError) return
-                setErrorMessage('Could not get genres')
-            })
-        return () => cancel()
-    }, [])
+    const { genres, error } = useGenres()
 
     return (
         <>
@@ -47,7 +32,7 @@ const GenreList = ({ onClick }: Props) => {
                     </Link>
                 </Flex>
             ))}
-            {errorMessage && <Text>{errorMessage}</Text>}
+            {error && <Text>Could not get genres</Text>}
         </>
     )
 }

@@ -21,13 +21,13 @@ function App() {
     const [isSearching, setIsSearching] = useState(false)
     const [searchText, setSearchText] = useState('')
 
-    const [selectedGenre, setSelectedGenre] = useState<Genre>()
-    const [selectedOrder, setSelectedOrder] = useState('')
+    const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null)
+    const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
     const [selectedPlatform, setSelectedPlatform] = useState<string>('all')
 
     const handleSearch = (searchText: string) => {
         setIsSearching(true)
-        setSelectedGenre(undefined)
+        setSelectedGenre(null)
         setSearchText(searchText)
     }
 
@@ -36,17 +36,16 @@ function App() {
             top: 0,
             behavior: 'smooth',
         })
-
-        setSelectedGenre(genre)
         setIsSearching(false)
+        setSelectedGenre(genre)
         setSearchText('')
     }
 
-    const handlePlatformSelection = (platform: string | undefined) => {
+    const handlePlatformSelection = (platform: string | null) => {
         platform && setSelectedPlatform(platform)
     }
 
-    const handleOrderSelection = (order: string | undefined) => {
+    const handleOrderSelection = (order: string | null) => {
         order && setSelectedOrder(order)
     }
 
@@ -81,7 +80,6 @@ function App() {
                     </Heading>
                     <Stack direction={{ base: 'column', md: 'row' }} mb="20px">
                         <OrderBy onOrderSelect={handleOrderSelection} />
-
                         <PlatformFilter
                             onPlatformSelect={handlePlatformSelection}
                         />

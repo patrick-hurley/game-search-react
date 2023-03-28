@@ -1,5 +1,6 @@
 import { SimpleGrid, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import useGames from '../hooks/useGames'
 import { CanceledError } from '../services/ApiClient'
 import GameService, { GameResponse } from '../services/GameService'
 import { Genre } from '../services/GenreService'
@@ -7,10 +8,10 @@ import GameResult from './GameResult'
 
 interface Props {
     isSearching: boolean
-    selectedOrder: string
+    selectedOrder: string | null
     searchText: string
     selectedPlatform: string
-    selectedGenre: Genre | undefined
+    selectedGenre: Genre | null
 }
 
 const GameList = ({
@@ -20,35 +21,19 @@ const GameList = ({
     selectedPlatform,
     selectedGenre,
 }: Props) => {
-    const [games, setGames] = useState<GameResponse>()
-    const [errorMessage, setErrorMessage] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
+    const searchQuery = {
+        search: isSearching ? searchText : null,
+        genres: !isSearching ? selectedGenre?.id : null,
+        ordering: selectedOrder,
+        platforms: selectedPlatform !== 'all' ? selectedPlatform : null,
+    }
 
-    useEffect(() => {
-        setIsLoading(true)
-
-        const { response, cancel } = GameService.getAll<GameResponse>({
-            ...(isSearching && { search: searchText }),
-            ...(!isSearching && { genres: selectedGenre?.id }),
-            ...(selectedOrder && { ordering: selectedOrder }),
-            ...(selectedPlatform !== 'all' && { platforms: selectedPlatform }),
-        })
-        response
-            .then((res) => {
-                setGames(res.data)
-                setErrorMessage('')
-                setTimeout(() => {
-                    setIsLoading(false)
-                }, 400)
-            })
-            .catch((err) => {
-                if (err instanceof CanceledError) return
-                setErrorMessage('Could not get games')
-                setIsLoading(false)
-            })
-
-        return () => cancel()
-    }, [selectedGenre, searchText, selectedOrder, selectedPlatform])
+    const { games, error, isLoading } = useGames(searchQuery, [
+        selectedGenre,
+        searchText,
+        selectedOrder,
+        selectedPlatform,
+    ])
 
     return (
         <>
@@ -61,10 +46,10 @@ const GameList = ({
                     ></GameResult>
                 ))}
             </SimpleGrid>
-            {!isLoading && games?.count === 0 && !errorMessage && (
+            {!isLoading && games?.count === 0 && !error && (
                 <Text>No results found.</Text>
             )}
-            {errorMessage && <Text>{errorMessage}</Text>}
+            {error && <Text>Could not get games</Text>}
         </>
     )
 }
