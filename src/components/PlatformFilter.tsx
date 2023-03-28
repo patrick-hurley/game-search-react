@@ -1,13 +1,28 @@
 import { Select } from '@chakra-ui/react'
-import { useRef } from 'react'
-import { PlatformResponse } from '../services/PlatformService'
+import { useEffect, useRef, useState } from 'react'
+import { CanceledError } from '../services/ApiClient'
+import PlatformService, { PlatformResponse } from '../services/PlatformService'
 
 interface Props {
-    platforms: PlatformResponse
     onPlatformSelect: (platform: string | undefined) => void
 }
 
-const PlatformFilter = ({ platforms, onPlatformSelect }: Props) => {
+const PlatformFilter = ({ onPlatformSelect }: Props) => {
+    const [platforms, setPlatforms] = useState<PlatformResponse>()
+
+    useEffect(() => {
+        const { response, cancel } = PlatformService.getAll<PlatformResponse>()
+        response
+            .then((res) => {
+                setPlatforms(res.data)
+            })
+            .catch((err) => {
+                if (err instanceof CanceledError) return
+                console.log('Could not get platforms')
+            })
+        return () => cancel()
+    }, [])
+
     const platformRef = useRef<HTMLSelectElement>(null)
     return (
         <Select
