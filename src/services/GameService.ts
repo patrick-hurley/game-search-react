@@ -5,13 +5,8 @@ export interface Game {
     id: number
     name: string
     rating: string
-    platforms: iPlatform[]
+    platforms: { platform: Platform }[]
     background_image: string
-}
-
-export interface iPlatform {
-    platform: Platform
-    released_at: string
 }
 
 export interface GameResponse extends RawGResponse<Game> {}

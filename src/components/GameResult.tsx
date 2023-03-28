@@ -5,25 +5,15 @@ import {
     useColorModeValue,
     Skeleton,
 } from '@chakra-ui/react'
-import { IconContext } from 'react-icons'
-import { iPlatform } from '../services/GameService'
-import { displayConsoleIcon } from '../utils/displayConsoleIcon'
+import { Game } from '../services/GameService'
+import PlatformIcons from './PlatformIcons'
 
 interface Props {
-    backgroundImage?: string
-    name: string
-    platforms: iPlatform[]
-    rating: number
+    game: Game
     isLoading: boolean
 }
 
-const GameResult = ({
-    name,
-    backgroundImage,
-    platforms,
-    rating,
-    isLoading,
-}: Props) => {
+const GameResult = ({ game, isLoading }: Props) => {
     const bg = useColorModeValue('#ececec', '#202020')
 
     return (
@@ -33,25 +23,11 @@ const GameResult = ({
                     h={{ base: '250px', md: '150px' }}
                     backgroundSize="cover"
                     backgroundPosition="center"
-                    backgroundImage={backgroundImage}
+                    backgroundImage={game.background_image}
                 />
                 <Box padding="20px 15px">
                     <Flex justify="space-between" align="center">
-                        <IconContext.Provider value={{ size: '18px' }}>
-                            <Flex wrap="wrap">
-                                {platforms?.map((platform) => (
-                                    <Box
-                                        key={platform.platform.id}
-                                        mr={2}
-                                        mb={2}
-                                    >
-                                        {displayConsoleIcon(
-                                            platform.platform.name
-                                        )}
-                                    </Box>
-                                ))}
-                            </Flex>
-                        </IconContext.Provider>
+                        <PlatformIcons platforms={game.platforms} />
                         <Box
                             border="2px solid green"
                             display="inline-block"
@@ -60,12 +36,12 @@ const GameResult = ({
                             alignSelf="start"
                             fontSize="11px"
                         >
-                            {rating}
+                            {game.rating}
                         </Box>
                     </Flex>
 
                     <Heading as="h2" size="md" mt={3}>
-                        {name}
+                        {game.name}
                     </Heading>
                 </Box>
             </Box>

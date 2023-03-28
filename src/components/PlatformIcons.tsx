@@ -1,3 +1,5 @@
+import { Platform } from '../services/PlatformService'
+
 import {
     RiPlaystationLine,
     RiXboxFill,
@@ -20,9 +22,14 @@ import {
     AiOutlineMobile,
 } from 'react-icons/ai'
 import { TbXboxX } from 'react-icons/tb'
+import { Box } from '@chakra-ui/react'
 
-export const displayConsoleIcon = (platform: string) => {
-    switch (platform) {
+interface Props {
+    platforms: { platform: Platform }[]
+}
+
+const renderSwitch = (platform: Platform) => {
+    switch (platform.name) {
         case 'PC':
             return <AiFillWindows />
         case 'PlayStation 4':
@@ -58,3 +65,15 @@ export const displayConsoleIcon = (platform: string) => {
             return <RiComputerLine />
     }
 }
+
+const PlatformIcons = ({ platforms }: Props) => {
+    return (
+        <>
+            {platforms.map(({ platform }) => (
+                <Box key={platform.id}>{renderSwitch(platform)}</Box>
+            ))}
+        </>
+    )
+}
+
+export default PlatformIcons
