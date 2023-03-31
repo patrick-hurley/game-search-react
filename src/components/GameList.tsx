@@ -4,22 +4,11 @@ import { GameQuery } from '../services/GameService'
 import GameResult from './GameResult'
 
 interface Props {
-    isSearching: boolean
     gameQuery: GameQuery
 }
 
-const GameList = ({ isSearching, gameQuery }: Props) => {
-    const searchQuery = {
-        search: isSearching ? gameQuery.searchText : null,
-        genres: !isSearching ? gameQuery.selectedGenre?.id : null,
-        ordering: gameQuery.selectedOrder,
-        platforms:
-            gameQuery.selectedPlatform !== 'all'
-                ? gameQuery.selectedPlatform
-                : null,
-    }
-
-    const { games, error, isLoading } = useGames(searchQuery, [gameQuery])
+const GameList = ({ gameQuery }: Props) => {
+    const { games, error, isLoading } = useGames(gameQuery, [gameQuery])
 
     return (
         <>

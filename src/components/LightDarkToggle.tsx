@@ -22,7 +22,9 @@ const LightDarkToggle = () => {
                 isChecked={colorMode === 'dark'}
             />
             <Show above="md">
-                <FormLabel mb="0">Dark Mode</FormLabel>
+                <FormLabel mb="0" whiteSpace="nowrap">
+                    Dark Mode
+                </FormLabel>
             </Show>
         </FormControl>
     )
