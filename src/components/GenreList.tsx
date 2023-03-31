@@ -1,6 +1,5 @@
 import { Flex, Heading, Image, Link, Text } from '@chakra-ui/react'
 import useGenres from '../hooks/useGenres'
-
 import { Genre } from '../services/GenreService'
 import imageUrl from '../utils/imageUrl'
 

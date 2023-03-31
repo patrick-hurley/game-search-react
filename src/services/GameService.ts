@@ -1,5 +1,13 @@
 import HttpService, { RawGResponse } from './HttpService'
 import { Platform } from '../services/PlatformService'
+import { Genre } from '../services/GenreService'
+
+export interface GameQuery {
+    selectedOrder: string | null
+    searchText: string
+    selectedPlatform: string
+    selectedGenre: Genre | null
+}
 
 export interface Game {
     id: number

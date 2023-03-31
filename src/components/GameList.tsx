@@ -1,39 +1,25 @@
 import { SimpleGrid, Text } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
 import useGames from '../hooks/useGames'
-import { CanceledError } from '../services/ApiClient'
-import GameService, { GameResponse } from '../services/GameService'
-import { Genre } from '../services/GenreService'
+import { GameQuery } from '../services/GameService'
 import GameResult from './GameResult'
 
 interface Props {
     isSearching: boolean
-    selectedOrder: string | null
-    searchText: string
-    selectedPlatform: string
-    selectedGenre: Genre | null
+    gameQuery: GameQuery
 }
 
-const GameList = ({
-    isSearching,
-    selectedOrder,
-    searchText,
-    selectedPlatform,
-    selectedGenre,
-}: Props) => {
+const GameList = ({ isSearching, gameQuery }: Props) => {
     const searchQuery = {
-        search: isSearching ? searchText : null,
-        genres: !isSearching ? selectedGenre?.id : null,
-        ordering: selectedOrder,
-        platforms: selectedPlatform !== 'all' ? selectedPlatform : null,
+        search: isSearching ? gameQuery.searchText : null,
+        genres: !isSearching ? gameQuery.selectedGenre?.id : null,
+        ordering: gameQuery.selectedOrder,
+        platforms:
+            gameQuery.selectedPlatform !== 'all'
+                ? gameQuery.selectedPlatform
+                : null,
     }
 
-    const { games, error, isLoading } = useGames(searchQuery, [
-        selectedGenre,
-        searchText,
-        selectedOrder,
-        selectedPlatform,
-    ])
+    const { games, error, isLoading } = useGames(searchQuery, [gameQuery])
 
     return (
         <>

@@ -16,45 +16,41 @@ import logo from './assets/logo.png'
 import OrderBy from './components/OrderBy'
 import PlatformFilter from './components/PlatformFilter'
 import SearchBar from './components/SearchBar'
+import { GameQuery } from './services/GameService'
 
 function App() {
     const [isSearching, setIsSearching] = useState(false)
-    const [searchText, setSearchText] = useState('')
 
-    const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null)
-    const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
-    const [selectedPlatform, setSelectedPlatform] = useState<string>('all')
+    const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery)
 
     const handleSearch = (searchText: string) => {
         setIsSearching(true)
-        setSelectedGenre(null)
-        setSearchText(searchText)
+        setGameQuery({ ...gameQuery, searchText, selectedGenre: null })
     }
 
-    const handleGenreSelection = (genre: Genre) => {
+    const handleGenreSelection = (selectedGenre: Genre) => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         })
         setIsSearching(false)
-        setSelectedGenre(genre)
-        setSearchText('')
+        setGameQuery({ ...gameQuery, selectedGenre, searchText: '' })
     }
 
-    const handlePlatformSelection = (platform: string | null) => {
-        platform && setSelectedPlatform(platform)
+    const handlePlatformSelection = (selectedPlatform: string | null) => {
+        selectedPlatform && setGameQuery({ ...gameQuery, selectedPlatform })
     }
 
-    const handleOrderSelection = (order: string | null) => {
-        order && setSelectedOrder(order)
+    const handleOrderSelection = (selectedOrder: string | null) => {
+        selectedOrder && setGameQuery({ ...gameQuery, selectedOrder })
     }
 
     const bg = useColorModeValue('white', '#151515')
 
     const headingText = isSearching
-        ? `Search results for '${searchText}'`
-        : selectedGenre
-        ? `Genre: ${selectedGenre.name}`
+        ? `Search results for '${gameQuery.searchText}'`
+        : gameQuery.selectedGenre
+        ? `Genre: ${gameQuery.selectedGenre.name}`
         : 'Games'
 
     return (
@@ -85,13 +81,7 @@ function App() {
                         />
                     </Stack>
 
-                    <GameList
-                        isSearching={isSearching}
-                        selectedOrder={selectedOrder}
-                        searchText={searchText}
-                        selectedPlatform={selectedPlatform}
-                        selectedGenre={selectedGenre}
-                    />
+                    <GameList isSearching={isSearching} gameQuery={gameQuery} />
                 </Box>
             </Flex>
         </Box>
