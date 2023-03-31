@@ -10,6 +10,8 @@ interface Props {
 const GameList = ({ gameQuery }: Props) => {
     const { games, error, isLoading } = useGames(gameQuery, [gameQuery])
 
+    if (error) return <Text>Could not get games</Text>
+
     return (
         <>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
@@ -24,7 +26,6 @@ const GameList = ({ gameQuery }: Props) => {
             {!isLoading && games?.count === 0 && !error && (
                 <Text>No results found.</Text>
             )}
-            {error && <Text>Could not get games</Text>}
         </>
     )
 }

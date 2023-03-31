@@ -1,7 +1,6 @@
 import {
     Box,
     Flex,
-    Heading,
     Stack,
     Image,
     Show,
@@ -17,14 +16,12 @@ import OrderBy from './components/OrderBy'
 import PlatformFilter from './components/PlatformFilter'
 import SearchBar from './components/SearchBar'
 import { GameQuery } from './services/GameService'
+import GameHeading from './components/GameHeading'
 
 function App() {
-    const [isSearching, setIsSearching] = useState(false)
-
     const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery)
 
     const handleSearch = (searchText: string) => {
-        setIsSearching(true)
         setGameQuery({ ...gameQuery, searchText, selectedGenre: null })
     }
 
@@ -33,7 +30,6 @@ function App() {
             top: 0,
             behavior: 'smooth',
         })
-        setIsSearching(false)
         setGameQuery({ ...gameQuery, selectedGenre, searchText: '' })
     }
 
@@ -46,12 +42,6 @@ function App() {
     }
 
     const bg = useColorModeValue('white', '#151515')
-
-    const headingText = isSearching
-        ? `Search results for '${gameQuery.searchText}'`
-        : gameQuery.selectedGenre
-        ? `Genre: ${gameQuery.selectedGenre.name}`
-        : 'Games'
 
     return (
         <Box p={{ base: 5, md: 7 }} bg={bg}>
@@ -71,9 +61,7 @@ function App() {
                 </Show>
 
                 <Box flex="1">
-                    <Heading as="h2" size="xl" mb="20px">
-                        {headingText}
-                    </Heading>
+                    <GameHeading gameQuery={gameQuery} />
                     <Stack direction={{ base: 'column', md: 'row' }} mb="20px">
                         <OrderBy onOrderSelect={handleOrderSelection} />
                         <PlatformFilter
@@ -81,7 +69,7 @@ function App() {
                         />
                     </Stack>
 
-                    <GameList isSearching={isSearching} gameQuery={gameQuery} />
+                    <GameList gameQuery={gameQuery} />
                 </Box>
             </Flex>
         </Box>

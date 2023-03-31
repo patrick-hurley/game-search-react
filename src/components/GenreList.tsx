@@ -10,6 +10,8 @@ interface Props {
 const GenreList = ({ onClick }: Props) => {
     const { genres, error } = useGenres()
 
+    if (error) return <Text>Could not get genres</Text>
+
     return (
         <>
             <Heading as="h2" size="md" mb="35px" mt="10px">
@@ -31,7 +33,6 @@ const GenreList = ({ onClick }: Props) => {
                     </Link>
                 </Flex>
             ))}
-            {error && <Text>Could not get genres</Text>}
         </>
     )
 }

@@ -9,7 +9,10 @@ interface Props {
 const PlatformFilter = ({ onPlatformSelect }: Props) => {
     const { platforms, error } = usePlatforms()
     const platformRef = useRef<HTMLSelectElement>(null)
-    return !error ? (
+
+    if (error) return <Text>Could not get platforms</Text>
+
+    return (
         <Select
             ref={platformRef}
             w={{ base: '100%', md: '250px' }}
@@ -24,8 +27,6 @@ const PlatformFilter = ({ onPlatformSelect }: Props) => {
                 </option>
             ))}
         </Select>
-    ) : (
-        <Text>Could not get platforms</Text>
     )
 }
 
