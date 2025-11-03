@@ -6,8 +6,11 @@ import {
     Show,
     useColorModeValue,
 } from '@chakra-ui/react'
+
+import { GameQuery } from './services/GameService'
 import { Genre } from './services/GenreService'
 import { useState } from 'react'
+import GameHeading from './components/GameHeading'
 import GameList from './components/GameList'
 import GenreList from './components/GenreList'
 import LightDarkToggle from './components/LightDarkToggle'
@@ -15,11 +18,9 @@ import logo from './assets/logo.png'
 import OrderBy from './components/OrderBy'
 import PlatformFilter from './components/PlatformFilter'
 import SearchBar from './components/SearchBar'
-import { GameQuery } from './services/GameService'
-import GameHeading from './components/GameHeading'
 
 function App() {
-    const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery)
+    const [gameQuery, setGameQuery] = useState<GameQuery>({})
 
     const handleSearch = (searchText: string) => {
         setGameQuery({ ...gameQuery, searchText, selectedGenre: null })
