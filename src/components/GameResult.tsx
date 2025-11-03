@@ -5,6 +5,7 @@ import {
     useColorModeValue,
     Skeleton,
 } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import { Game } from '../services/GameService'
 import GameImage from './GameImage'
 import GameRating from './GameRating'
@@ -28,7 +29,7 @@ const GameResult = ({ game, isLoading }: Props) => {
                         <GameRating rating={game.metacritic} />
                     </Flex>
                     <Heading as="h2" size="md" mt={3}>
-                        {game.name}
+                        <Link to={`/game/${game.id}`}>{game.name}</Link>
                     </Heading>
                 </Box>
             </Box>

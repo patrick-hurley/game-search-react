@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { CanceledError } from '../services/ApiClient'
-import HttpService from '../services/HttpService'
 
-const useData = <T>(service: HttpService, params?: {}, deps?: any[]) => {
+const useData = <T>(
+    fetcher: () => { response: Promise<any>; cancel: () => void },
+    deps?: any[]
+) => {
     const [data, setData] = useState<T>()
     const [error, setError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -10,7 +12,7 @@ const useData = <T>(service: HttpService, params?: {}, deps?: any[]) => {
     useEffect(
         () => {
             setIsLoading(true)
-            const { response, cancel } = service.getAll<T>(params)
+            const { response, cancel } = fetcher()
             response
                 .then((res) => {
                     setData(res.data)

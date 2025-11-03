@@ -1,9 +1,9 @@
 import PlatformService, { PlatformResponse } from '../services/PlatformService'
-import useData from './useData'
+import useCollection from './useCollection'
 
 const useGenres = () => {
     const { data: platforms, error } =
-        useData<PlatformResponse>(PlatformService)
+        useCollection<PlatformResponse>(PlatformService)
     return { platforms, error }
 }
 

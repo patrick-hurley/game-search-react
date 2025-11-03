@@ -1,12 +1,12 @@
 import GameService, { GameQuery, GameResponse } from '../services/GameService'
-import useData from './useData'
+import useCollection from './useCollection'
 
 const useGames = (query: GameQuery, deps: any[]) => {
     const {
         data: games,
         error,
         isLoading,
-    } = useData<GameResponse>(
+    } = useCollection<GameResponse>(
         GameService,
         {
             search: query.searchText || null,

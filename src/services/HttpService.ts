@@ -18,6 +18,12 @@ class HttpService {
         })
         return { response, cancel: () => controller.abort() }
     }
+
+    getById<T>(id: string) {
+        const controller = new AbortController()
+        const response = ApiClient.get<T>(`${this.path}/${id}`)
+        return { response, cancel: () => controller.abort() }
+    }
 }
 
 export default HttpService

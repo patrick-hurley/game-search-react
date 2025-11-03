@@ -1,8 +1,8 @@
 import GenreService, { GenreResponse } from '../services/GenreService'
-import useData from './useData'
+import useCollection from './useCollection'
 
 const useGenres = () => {
-    const { data: genres, error } = useData<GenreResponse>(GenreService)
+    const { data: genres, error } = useCollection<GenreResponse>(GenreService)
     return { genres, error }
 }
 
