@@ -1,12 +1,18 @@
+import { useQuery } from '@tanstack/react-query'
 import GameService, { Game } from '../services/GameService'
-import useResource from './useResource'
 
 const useGame = (id: string) => {
-    const { data: game, error, isLoading } = useResource<Game>(
-        GameService,
-        id,
-        [id]
-    )
+    const {
+        data: game,
+        error,
+        isLoading,
+    } = useQuery<Game>({
+        queryKey: ['game', id],
+        queryFn: async () => {
+            const { response } = GameService.getById<Game>(id)
+            return (await response).data
+        },
+    })
     return { game, error, isLoading }
 }
 

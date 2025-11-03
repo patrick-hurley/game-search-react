@@ -1,8 +1,14 @@
+import { useQuery } from '@tanstack/react-query'
 import GenreService, { GenreResponse } from '../services/GenreService'
-import useCollection from './useCollection'
 
 const useGenres = () => {
-    const { data: genres, error } = useCollection<GenreResponse>(GenreService)
+    const { data: genres, error } = useQuery<GenreResponse>({
+        queryKey: ['genres'],
+        queryFn: async () => {
+            const { response } = GenreService.getAll<GenreResponse>()
+            return (await response).data
+        },
+    })
     return { genres, error }
 }
 

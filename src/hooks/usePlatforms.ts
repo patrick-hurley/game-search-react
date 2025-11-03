@@ -1,10 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
 import PlatformService, { PlatformResponse } from '../services/PlatformService'
-import useCollection from './useCollection'
 
-const useGenres = () => {
-    const { data: platforms, error } =
-        useCollection<PlatformResponse>(PlatformService)
+const usePlatforms = () => {
+    const { data: platforms, error } = useQuery<PlatformResponse>({
+        queryKey: ['platforms'],
+        queryFn: async () => {
+            const { response } = PlatformService.getAll<PlatformResponse>()
+            return (await response).data
+        },
+    })
     return { platforms, error }
 }
 
-export default useGenres
+export default usePlatforms

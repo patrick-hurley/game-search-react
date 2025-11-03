@@ -8,7 +8,7 @@ interface Props {
 }
 
 const GameList = ({ gameQuery }: Props) => {
-    const { games, error, isLoading } = useGames(gameQuery, [gameQuery])
+    const { games, error, isLoading } = useGames(gameQuery)
 
     if (error) return <Text>Could not get games</Text>
 
