@@ -1,16 +1,36 @@
 import { Box } from '@chakra-ui/react'
 
-const GameRating = ({ rating }: { rating?: number }) => {
+interface Props {
+    rating?: number
+    size?: 'sm' | 'lg'
+}
+
+const GameRating = ({ rating, size = 'sm' }: Props) => {
     if (!rating) return null
+
+    const sizeStyles = {
+        sm: {
+            padding: '1px 5px',
+            fontSize: '11px',
+            borderWidth: '2px',
+        },
+        lg: {
+            padding: '4px 10px',
+            fontSize: '16px',
+            borderWidth: '3px',
+        },
+    }
+
+    const styles = sizeStyles[size]
 
     return (
         <Box
-            border="2px solid green"
+            border={`${styles.borderWidth} solid green`}
             display="inline-block"
-            padding="1px 5px"
+            padding={styles.padding}
             borderRadius="5px"
             alignSelf="start"
-            fontSize="11px"
+            fontSize={styles.fontSize}
         >
             {rating}
         </Box>

@@ -27,6 +27,7 @@ import { IconContext } from 'react-icons'
 
 interface Props {
     platforms: { platform: Platform }[]
+    size: string
 }
 
 const renderSwitch = (platform: Platform) => {
@@ -67,10 +68,10 @@ const renderSwitch = (platform: Platform) => {
     }
 }
 
-const PlatformIcons = ({ platforms }: Props) => {
+const PlatformIcons = ({ platforms, size }: Props) => {
     return (
         <>
-            <IconContext.Provider value={{ size: '18px' }}>
+            <IconContext.Provider value={{ size }}>
                 <Flex align="center">
                     {platforms.map(({ platform }) => (
                         <Box key={platform.id} mr="10px" mb="5px" mt="3px">

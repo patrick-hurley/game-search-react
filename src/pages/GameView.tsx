@@ -54,18 +54,17 @@ const GameView = () => {
                     width="100%"
                     objectFit="cover"
                 />
+                <Flex gap={5} align="center">
+                    <GameRating rating={game?.metacritic} size="lg" />
+                    <PlatformIcons
+                        platforms={game?.platforms || []}
+                        size="30px"
+                    />
+                </Flex>
             </Skeleton>
 
             {!localIsLoading && (
-                <>
-                    <Text mb={4}>
-                        {game?.description?.replace(/<[^>]*>/g, '')}
-                    </Text>
-                    <Flex gap={5} align="center">
-                        <GameRating rating={game?.metacritic} />
-                        <PlatformIcons platforms={game?.platforms || []} />
-                    </Flex>
-                </>
+                <Text mb={4}>{game?.description?.replace(/<[^>]*>/g, '')}</Text>
             )}
         </Box>
     )

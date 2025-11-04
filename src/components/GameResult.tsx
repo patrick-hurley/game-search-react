@@ -25,7 +25,10 @@ const GameResult = ({ game, isLoading }: Props) => {
                 <GameImage image={game?.background_image} />
                 <Box padding="20px 15px">
                     <Flex justify="space-between" align="center">
-                        <PlatformIcons platforms={game?.platforms || []} />
+                        <PlatformIcons
+                            platforms={game?.platforms || []}
+                            size="18px"
+                        />
                         <GameRating rating={game?.metacritic} />
                     </Flex>
                     <Heading as="h2" size="md" mt={3}>
