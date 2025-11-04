@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Layout from './components/Layout'
-import HomePage from './components/HomePage'
-import GameView from './components/GameView'
+import HomePage from './pages/ResultsView'
+import GameView from './pages/GameView'
 
 const queryClient = new QueryClient({
     defaultOptions: {

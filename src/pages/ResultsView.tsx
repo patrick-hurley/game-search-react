@@ -1,8 +1,8 @@
 import { Stack } from '@chakra-ui/react'
-import GameHeading from './GameHeading'
-import GameList from './GameList'
-import OrderBy from './OrderBy'
-import PlatformFilter from './PlatformFilter'
+import GameHeading from '../components/GameHeading'
+import GameList from '../components/GameList'
+import OrderBy from '../components/OrderBy'
+import PlatformFilter from '../components/PlatformFilter'
 import { useGamesFilterParams } from '../hooks/useGamesFilterParams'
 
 const HomePage = () => {
