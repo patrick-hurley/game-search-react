@@ -71,9 +71,9 @@ const PlatformIcons = ({ platforms }: Props) => {
     return (
         <>
             <IconContext.Provider value={{ size: '18px' }}>
-                <Flex wrap="wrap">
+                <Flex align="center">
                     {platforms.map(({ platform }) => (
-                        <Box key={platform.id} mr="10px" mb="5px">
+                        <Box key={platform.id} mr="10px" mb="5px" mt="3px">
                             {renderSwitch(platform)}
                         </Box>
                     ))}

@@ -1,6 +1,8 @@
 import { Box } from '@chakra-ui/react'
 
-const GameRating = ({ rating }: { rating: number }) => {
+const GameRating = ({ rating }: { rating?: number }) => {
+    if (!rating) return null
+
     return (
         <Box
             border="2px solid green"
@@ -10,7 +12,7 @@ const GameRating = ({ rating }: { rating: number }) => {
             alignSelf="start"
             fontSize="11px"
         >
-            {rating ? rating : '0'}
+            {rating}
         </Box>
     )
 }
