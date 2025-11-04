@@ -10,7 +10,7 @@ const Layout = () => {
         <Box p={{ base: 5, md: 7 }} bg={bg}>
             <Header />
 
-            <Flex mt="10">
+            <Flex mt="10" gap="10">
                 <Sidebar />
 
                 <Box flex="1">

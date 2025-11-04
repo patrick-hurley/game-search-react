@@ -37,7 +37,7 @@ const GameView = () => {
     return (
         <Box
             p={{ base: 5, md: 7 }}
-            width={{ base: '100%', md: '550px', lg: '800px' }}
+            width={{ base: '100%', lg: '800px' }}
             mx="auto"
         >
             <Skeleton isLoaded={!localIsLoading} borderRadius="lg" mb={4}>
